@@ -1,0 +1,164 @@
+[
+  {
+    "scenario": "Walkthrough Step 1-5 (ArrowRight + Finish)",
+    "engine": "Chromium",
+    "keysPressed": "Auto-open, ArrowRight x4, Focus Finish, Enter",
+    "focusPath": "button[aria=\"Skip guided tour\"] -> button(\"Finish Tour\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Walkthrough Open & Skip (Focus Restoration)",
+    "engine": "Chromium",
+    "keysPressed": "Tab to Tour trigger, Enter, Escape",
+    "focusPath": "header[Guided Tour] -> dialog -> button[aria=\"Guided Tour\"](\"Guided Tour\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Test Funds Guide (Links + Escape + Return)",
+    "engine": "Chromium",
+    "keysPressed": "Tab to Funds trigger, Enter, Escape",
+    "focusPath": "header[Get Test Funds] -> dialog -> button[aria=\"Get Test Funds & Gas Guide\"](\"Get Test Funds\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Wallet Modal (Fresh Key + Escape + Return)",
+    "engine": "Chromium",
+    "keysPressed": "Tab to Wallet trigger, Enter, Tab to Fresh Key, Enter, Escape",
+    "focusPath": "header[Wallet] -> dialog -> button(\"0x915E...3c81\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Pre-write Guard Notice (Trap + Dismiss + Return)",
+    "engine": "Chromium",
+    "keysPressed": "Tab to Register submit, Enter, Escape",
+    "focusPath": "form[Submit] -> notice[role=alert] -> trigger",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Subnavigation Tab Bar (7 Tabs role=tab & aria-selected)",
+    "engine": "Chromium",
+    "keysPressed": "Tab x7 across tablist buttons",
+    "focusPath": "Explore Citations -> Citation Detail -> Register Citation -> Run Audit -> Claims Board -> Admin & Ledger -> Honest Evidence",
+    "focusTrapEnforced": "n/a (page tablist)",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Walkthrough Step 1-5 (ArrowRight + Finish)",
+    "engine": "Firefox",
+    "keysPressed": "Auto-open, ArrowRight x4, Focus Finish, Enter",
+    "focusPath": "button[aria=\"Skip guided tour\"] -> button(\"Finish Tour\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Walkthrough Open & Skip (Focus Restoration)",
+    "engine": "Firefox",
+    "keysPressed": "Tab to Tour trigger, Enter, Escape",
+    "focusPath": "header[Guided Tour] -> dialog -> button[aria=\"Guided Tour\"](\"Guided Tour\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Test Funds Guide (Links + Escape + Return)",
+    "engine": "Firefox",
+    "keysPressed": "Tab to Funds trigger, Enter, Escape",
+    "focusPath": "header[Get Test Funds] -> dialog -> button[aria=\"Get Test Funds & Gas Guide\"](\"Get Test Funds\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Wallet Modal (Fresh Key + Escape + Return)",
+    "engine": "Firefox",
+    "keysPressed": "Tab to Wallet trigger, Enter, Tab to Fresh Key, Enter, Escape",
+    "focusPath": "header[Wallet] -> dialog -> button(\"0xdd6B...8273\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Pre-write Guard Notice (Trap + Dismiss + Return)",
+    "engine": "Firefox",
+    "keysPressed": "Tab to Register submit, Enter, Escape",
+    "focusPath": "form[Submit] -> notice[role=alert] -> trigger",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Subnavigation Tab Bar (7 Tabs role=tab & aria-selected)",
+    "engine": "Firefox",
+    "keysPressed": "Tab x7 across tablist buttons",
+    "focusPath": "Explore Citations -> Citation Detail -> Register Citation -> Run Audit -> Claims Board -> Admin & Ledger -> Honest Evidence",
+    "focusTrapEnforced": "n/a (page tablist)",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Walkthrough Step 1-5 (ArrowRight + Finish)",
+    "engine": "WebKit",
+    "keysPressed": "Auto-open, ArrowRight x4, Focus Finish, Enter",
+    "focusPath": "button[aria=\"Skip guided tour\"] -> button(\"Finish Tour\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Walkthrough Open & Skip (Focus Restoration)",
+    "engine": "WebKit",
+    "keysPressed": "Tab to Tour trigger, Enter, Escape",
+    "focusPath": "header[Guided Tour] -> dialog -> button[aria=\"Guided Tour\"](\"Guided Tour\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Test Funds Guide (Links + Escape + Return)",
+    "engine": "WebKit",
+    "keysPressed": "Tab to Funds trigger, Enter, Escape",
+    "focusPath": "header[Get Test Funds] -> dialog -> button[aria=\"Get Test Funds & Gas Guide\"](\"Get Test Funds\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Wallet Modal (Fresh Key + Escape + Return)",
+    "engine": "WebKit",
+    "keysPressed": "Tab to Wallet trigger, Enter, Tab to Fresh Key, Enter, Escape",
+    "focusPath": "header[Wallet] -> dialog -> button(\"0x4298...5f49\")",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Pre-write Guard Notice (Trap + Dismiss + Return)",
+    "engine": "WebKit",
+    "keysPressed": "Tab to Register submit, Enter, Escape",
+    "focusPath": "form[Submit] -> notice[role=alert] -> trigger",
+    "focusTrapEnforced": "yes",
+    "focusRestored": "yes",
+    "result": "pass"
+  },
+  {
+    "scenario": "Subnavigation Tab Bar (7 Tabs role=tab & aria-selected)",
+    "engine": "WebKit",
+    "keysPressed": "Tab x7 across tablist buttons",
+    "focusPath": "Explore Citations -> Citation Detail -> Register Citation -> Run Audit -> Claims Board -> Admin & Ledger -> Honest Evidence",
+    "focusTrapEnforced": "n/a (page tablist)",
+    "focusRestored": "yes",
+    "result": "pass"
+  }
+]
