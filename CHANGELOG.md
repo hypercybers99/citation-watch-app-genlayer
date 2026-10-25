@@ -24,13 +24,13 @@ Milestone 1 Revision 2 directly resolves owner review findings regarding walkthr
 
 | Metric | Revision 1 (`milestone-1-ux-onboarding`) | Revision 2 (`milestone-1-ux-onboarding-r2`) | Improvement |
 | :--- | :--- | :--- | :--- |
-| **Viewport Matrix Pass Rate (35 cells)** | 0 / 35 passed (0.0%) | **35 / 35 passed (100.0%)** | 100% resolution of dialog clipping |
+| **Viewport Matrix Clipping Rate (35 cells)** | 35 / 35 cells clipped (100.0%) | **0 / 35 cells clipped (0.0%)** | Full resolution of dialog clipping |
 | **Modal Y Bounding Box at 500x667** | -255px (header clipped above top) | **+16px (fully inside viewport)** | Resolved blocking production bug |
-| **Mobile Horizontal Overflow (320px)** | Failed (`scrollWidth > clientWidth`) | **0px overflow (`scrollWidth <= clientWidth`)** | 100% compliant |
-| **WCAG 400% Zoom Reflow (320x200 CSS)** | Failed (header & close button cut off) | **Passed (dialog body scrolls, controls visible)** | WCAG 1.4.10 Reflow compliant |
+| **Mobile Horizontal Overflow (320px)** | Failed (`scrollWidth > clientWidth`) | **0px overflow (`scrollWidth <= clientWidth`)** | No horizontal overflow |
+| **400% Zoom Reflow (320x200 CSS)** | Failed (header & close button cut off) | **Passed (dialog body scrolls, controls visible)** | Responsive reflow verified |
 | **Automated Axe Accessibility Audits** | 4 baseline scenarios passed | **15 / 15 scenarios passed (0 violations)** | Comprehensive multi-modal coverage |
-| **Zero-Balance Real Writes Executed** | Unmeasured | **4 / 4 writes finalized on 0 GEN balance** | Measured gas consumption: 0 GEN |
-| **Readback Registrant Verification** | False (runner != registrant in prior pack) | **True (`registrant === runnerAccount`)** | 100% integrity proven on-chain |
+| **Zero-Balance Real Writes Executed** | Unmeasured | **4 / 4 write transactions mined on 0 GEN balance (3 accepted by majority agreement, 1 undetermined/disagreed)** | Measured gas consumption: 0 GEN |
+| **Readback Registrant Verification** | Clarified (true on M1 & R2 on-chain runs; older pre-milestone defect resolved) | **True (`registrant === runnerAccount`)** | 100% verified on-chain |
 | **Automated Test Suite Count** | 42 tests | **87 tests (53 vitest + 34 playwright matrix)** | +45 automated tests |
 
 ---
@@ -40,7 +40,7 @@ Milestone 1 Revision 2 directly resolves owner review findings regarding walkthr
 #### 1. Walkthrough Modal Viewport Architecture & Zoom Reflow
 - **Before**: In Revision 1, `WalkthroughModal.tsx`, `FundingModal.tsx`, and `TxPipelineModal.tsx` utilized Tailwind's `items-center` without `overflow-y-auto` on the outer fixed container. On viewports with heights below 800px (e.g. 500x667, 390x667, landscape 667x375, or 200%/400% zoom reflow), dialog content overflowed negative Y space (`top < 0`), permanently cutting off the modal title, close button, and Skip button above the viewport.
 - **After**: Redesigned all modal containers with fixed viewport-safe containers (`fixed inset-0 z-50 overflow-y-auto p-2 sm:p-4`), top-aligned flex positioning (`flex min-h-full items-start justify-center`), and centered auto margins (`m-auto`). Modal cards enforce `max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)]` with a sticky header, scrollable body (`overflow-y-auto`), and sticky footer (`flex-shrink-0`), guaranteeing that header and navigation buttons remain visible and reachable across all 35 matrix configurations.
-- **Reason**: Ensures usability and compliance with WCAG 1.4.10 Reflow standards on small mobile screens, split-screen desktop windows, and assistive zoom levels.
+- **Reason**: Ensures usability and resolves dialog clipping on small mobile screens, split-screen desktop windows, and 400% zoom reflow.
 
 #### 2. Fluid Responsive Landing Typography
 - **Before**: The landing hero headline was styled with static large font classes (`text-5xl sm:text-6xl`), which forced text wrapping beyond screen boundaries on 320px screens and caused horizontal layout overflow.
@@ -74,7 +74,7 @@ Milestone 1 Revision 2 directly resolves owner review findings regarding walkthr
 
 ### Overview
 
-Milestone 1 delivers a comprehensive overhaul of user experience, interactive onboarding, and accessibility compliance for the CitationWatch dApp on GenLayer Studionet (Preview). This update introduces an interactive 5-step guided walkthrough, a dedicated test funds and gas guide with live RPC balance queries, pre-write validation guards, shimmer skeleton loading states, an application-wide ErrorBoundary, and full WCAG 2.1 AA accessibility remediation achieving 0 axe violations across desktop and mobile viewports.
+Milestone 1 delivers a comprehensive overhaul of user experience, interactive onboarding, and accessibility compliance for the CitationWatch dApp on GenLayer Studionet (Preview). This update introduces an interactive 5-step guided walkthrough, a dedicated test funds and gas guide with live RPC balance queries, pre-write validation guards, shimmer skeleton loading states, an application-wide ErrorBoundary, and automated accessibility remediation achieving 0 axe-core violations and 100/99 Lighthouse accessibility scores across desktop and mobile viewports.
 
 ---
 
@@ -94,7 +94,7 @@ Milestone 1 delivers a comprehensive overhaul of user experience, interactive on
 | **Application ErrorBoundary** | Missing (uncaught crashes) | **Full boundary + reset actions** | Production resilient |
 | **Direct Deep-Link Routing** | 404 error on `/workbench` | **SPA rewrite (vercel.json)** | 100% resolved |
 | **Vitest Unit & Integration Tests** | 37 tests (5 files) | **42 tests (7 files)** | +5 tests (100% passing) |
-| **Touch Target Compliance (>= 44x44px)** | 0% compliant | **94.4% compliant (17/18)** | WCAG 2.5.5 compliance |
+| **Touch Target Size (>= 44x44px)** | 0% | **94.4% (17/18)** | 17/18 visible interactive targets >= 44x44px (1 sr-only skip link) |
 
 ---
 
@@ -122,7 +122,7 @@ Milestone 1 delivers a comprehensive overhaul of user experience, interactive on
   - Pre-write balance guard (`runPreWriteGuard`) executing before any consensus transaction is submitted.
 - **Reason**: Eliminates user hesitation around transaction fees and confirms the preview nature of Studionet.
 
-#### 3. Full Accessibility Remediation (WCAG 2.1 AA)
+#### 3. Accessibility Remediation & Usability Verification
 - **Before**: Automated axe scans failed on contrast ratios (cyan-600 on dark slate failed AA standard 4.5:1), missing landmark regions, and `label-content-name-mismatch` on custom buttons. Touch targets were sub-40px.
 - **After**:
   - Contrast ratios elevated above 9:1 using high-contrast cyan-500 against slate-950 and bright white foreground text.
@@ -131,7 +131,7 @@ Milestone 1 delivers a comprehensive overhaul of user experience, interactive on
   - Proper landmark hierarchy: `<header>`, `<main>`, `<nav role="tablist">`, and `<section aria-labelledby="...">` landmarks.
   - Keyboard accessible skip link (`Skip to main content`).
   - Mobile 390px viewport verified for zero horizontal overflow (`scrollWidth <= innerWidth`).
-- **Reason**: Meets strict WCAG 2.1 AA standards for all users and assistive technology.
+- **Reason**: Eliminates all automated axe-core violations, achieves 100/99 Lighthouse accessibility scores, and ensures keyboard usability for assistive technology.
 
 #### 4. Skeleton Loading States & Error Resilience
 - **Before**: Slow RPC responses left users staring at blank white screens or frozen card layouts without indication of network activity. Unhandled runtime errors caused full page crashes.

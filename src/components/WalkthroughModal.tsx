@@ -51,9 +51,9 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     title: "2. Audit Source Drift",
-    subtitle: "Validator consensus evaluates revisions and live web",
+    subtitle: "Validator consensus evaluates revisions and current Wikipedia page",
     description:
-      "Trigger an audit against a newer revision or the live Wikipedia article. Independent validators fetch the target HTML, parse passages, run language models, and agree on element status: UNCHANGED, REPHRASED, CHANGED, or ABSENT.",
+      "Trigger an audit against a newer revision or the current Wikipedia page. Independent validators fetch the target HTML, parse passages, run language models, and agree on element status: UNCHANGED, REPHRASED, CHANGED, or ABSENT.",
     icon: <Search className="h-6 w-6 sm:h-7 sm:w-7 text-cyan-400" aria-hidden="true" />,
     highlights: [
       "Cosmetic changes (punctuation, rephrasing) remain intact.",
