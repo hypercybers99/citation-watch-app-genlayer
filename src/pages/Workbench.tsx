@@ -45,6 +45,7 @@ import {
 } from "../lib/outcome";
 import { TxPipelineModal } from "../components/TxPipelineModal";
 import { FundingModal } from "../components/FundingModal";
+import { InAppNotice } from "../components/InAppNotice";
 import {
   CitationCardSkeleton,
   CitationDetailSkeleton,
@@ -106,6 +107,7 @@ export const Workbench: React.FC = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [txProgress, setTxProgress] = useState<TxProgress | null>(null);
   const [showFundingModal, setShowFundingModal] = useState(false);
+  const [missingAccountNotice, setMissingAccountNotice] = useState(false);
 
   // In-memory cache to avoid redundant RPC calls
   const citationCacheRef = useRef<Map<string, CitationRecord>>(new Map());
@@ -132,7 +134,7 @@ export const Workbench: React.FC = () => {
   // Pre-write validation guard: validates account presence and queries RPC balance
   const runPreWriteGuard = async (): Promise<boolean> => {
     if (!account || !account.address) {
-      alert("No active preview account found. Please open the Wallet modal in the header to generate a throwaway key.");
+      setMissingAccountNotice(true);
       return false;
     }
     try {
@@ -1245,6 +1247,15 @@ export const Workbench: React.FC = () => {
       />
 
       {/* Test Funds & Gas Guide Modal */}
+      <InAppNotice
+        isOpen={missingAccountNotice}
+        onClose={() => setMissingAccountNotice(false)}
+        type="warning"
+        title="Account Required"
+        message="No active preview account found. Please open the Wallet modal in the header to generate a throwaway key before submitting transactions."
+        actionLabel="Got It"
+        onAction={() => setMissingAccountNotice(false)}
+      />
       <FundingModal
         isOpen={showFundingModal}
         onClose={() => setShowFundingModal(false)}

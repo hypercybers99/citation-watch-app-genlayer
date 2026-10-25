@@ -10,6 +10,7 @@ import {
   isAcceptedReceiptStatus,
   isDisagreedReceiptStatus,
   isTimeoutReceiptStatus,
+  deriveTerminalOutcome,
   type TxProgress,
 } from "../lib/txLifecycle";
 import { decodeContractRevert } from "../lib/revertMap";
@@ -328,8 +329,14 @@ export async function monitorTransaction(
         }).length;
         const totalVotes = voteList.length;
 
-        if (isAcceptedReceiptStatus(rawStatus)) {
-          if (leaderResult === "ERROR") {
+        const terminal = deriveTerminalOutcome({
+          status: rawStatus,
+          result: tx.result ?? consensusData?.result,
+          leaderResult,
+        });
+
+        if (terminal.isTerminal) {
+          if (terminal.outcome === "reverted") {
             onProgress?.({
               stage: "reverted",
               txHash,
@@ -341,36 +348,38 @@ export async function monitorTransaction(
             return { status: "REVERTED", tx, decodedRevert };
           }
 
-          onProgress?.({
-            stage: "accepted",
-            txHash,
-            leaderResult: "SUCCESS",
-            agreeCount,
-            totalVotes,
-          });
-          return { status: "ACCEPTED", tx };
-        }
+          if (terminal.outcome === "disagreed") {
+            onProgress?.({
+              stage: "disagreed",
+              txHash,
+              leaderResult,
+              agreeCount,
+              totalVotes,
+            });
+            return { status: "DISAGREED", tx };
+          }
 
-        if (isDisagreedReceiptStatus(rawStatus)) {
-          onProgress?.({
-            stage: "disagreed",
-            txHash,
-            leaderResult,
-            agreeCount,
-            totalVotes,
-          });
-          return { status: "DISAGREED", tx };
-        }
+          if (terminal.outcome === "timed_out") {
+            onProgress?.({
+              stage: "timed_out",
+              txHash,
+              leaderResult,
+              agreeCount,
+              totalVotes,
+            });
+            return { status: "TIMED_OUT", tx };
+          }
 
-        if (isTimeoutReceiptStatus(rawStatus)) {
-          onProgress?.({
-            stage: "timed_out",
-            txHash,
-            leaderResult,
-            agreeCount,
-            totalVotes,
-          });
-          return { status: "TIMED_OUT", tx };
+          if (terminal.outcome === "agreed") {
+            onProgress?.({
+              stage: "accepted",
+              txHash,
+              leaderResult: "SUCCESS",
+              agreeCount,
+              totalVotes,
+            });
+            return { status: "ACCEPTED", tx };
+          }
         }
 
         onProgress?.({

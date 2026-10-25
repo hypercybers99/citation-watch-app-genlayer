@@ -1,9 +1,10 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
   isTerminalReceiptStatus,
   isAcceptedReceiptStatus,
   isDisagreedReceiptStatus,
   isTimeoutReceiptStatus,
+  deriveTerminalOutcome,
   type PipelineStage,
   type TxProgress,
 } from "../src/lib/txLifecycle";
@@ -142,7 +143,6 @@ describe("txLifecycle readback verification flow", () => {
   });
 
   it("decodes leader receipt results correctly with first status byte sliced", async () => {
-    // Leader results in GenLayer return base64 with a 1-byte status prefix followed by utf-8 payload
     const text = "quote not found verbatim in baseline";
     const binary = String.fromCharCode(0) + text;
     const base64 = btoa(binary);
@@ -162,3 +162,117 @@ describe("txLifecycle readback verification flow", () => {
   });
 });
 
+describe("deriveTerminalOutcome dual status and result mapping", () => {
+  const cases = [
+    // Agreed combinations
+    {
+      input: { status: "FINALIZED", result: 6 },
+      expected: { outcome: "agreed", label: "Finalized (Agreed)", badgeVariant: "green", stateApplied: true, isTerminal: true },
+    },
+    {
+      input: { status: "FINALIZED", result: "MAJORITY_AGREE" },
+      expected: { outcome: "agreed", label: "Finalized (Agreed)", badgeVariant: "green", stateApplied: true, isTerminal: true },
+    },
+    {
+      input: { status: "ACCEPTED", result: 6 },
+      expected: { outcome: "agreed", label: "Finalized (Agreed)", badgeVariant: "green", stateApplied: true, isTerminal: true },
+    },
+    {
+      input: { status: 7, result: 6 },
+      expected: { outcome: "agreed", label: "Finalized (Agreed)", badgeVariant: "green", stateApplied: true, isTerminal: true },
+    },
+    {
+      input: { status: 5, result: 6 },
+      expected: { outcome: "agreed", label: "Finalized (Agreed)", badgeVariant: "green", stateApplied: true, isTerminal: true },
+    },
+    {
+      input: { status: "FINALIZED", result: null, leaderResult: "SUCCESS" },
+      expected: { outcome: "agreed", label: "Finalized (Agreed)", badgeVariant: "green", stateApplied: true, isTerminal: true },
+    },
+
+    // Disagreed combinations
+    {
+      input: { status: "FINALIZED", result: 7 },
+      expected: { outcome: "disagreed", label: "Finalized (Disagreed / State not applied)", badgeVariant: "amber", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: "FINALIZED", result: "MAJORITY_DISAGREE" },
+      expected: { outcome: "disagreed", label: "Finalized (Disagreed / State not applied)", badgeVariant: "amber", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: "UNDETERMINED", result: null },
+      expected: { outcome: "disagreed", label: "Finalized (Disagreed / State not applied)", badgeVariant: "amber", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: "MAJORITY_DISAGREE", result: null },
+      expected: { outcome: "disagreed", label: "Finalized (Disagreed / State not applied)", badgeVariant: "amber", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: 6, result: null },
+      expected: { outcome: "disagreed", label: "Finalized (Disagreed / State not applied)", badgeVariant: "amber", stateApplied: false, isTerminal: true },
+    },
+
+    // Reverted combinations
+    {
+      input: { status: "REVERTED", result: null },
+      expected: { outcome: "reverted", label: "Reverted", badgeVariant: "rose", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: "FINALIZED", leaderResult: "ERROR" },
+      expected: { outcome: "reverted", label: "Reverted", badgeVariant: "rose", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: "ACCEPTED", leaderResult: "ERROR" },
+      expected: { outcome: "reverted", label: "Reverted", badgeVariant: "rose", stateApplied: false, isTerminal: true },
+    },
+
+    // Timeout combinations
+    {
+      input: { status: "VALIDATORS_TIMEOUT" },
+      expected: { outcome: "timed_out", label: "Timed Out", badgeVariant: "rose", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: "LEADER_TIMEOUT" },
+      expected: { outcome: "timed_out", label: "Timed Out", badgeVariant: "rose", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: 12 },
+      expected: { outcome: "timed_out", label: "Timed Out", badgeVariant: "rose", stateApplied: false, isTerminal: true },
+    },
+
+    // Canceled combinations
+    {
+      input: { status: "CANCELED" },
+      expected: { outcome: "canceled", label: "Canceled", badgeVariant: "slate", stateApplied: false, isTerminal: true },
+    },
+    {
+      input: { status: 8 },
+      expected: { outcome: "canceled", label: "Canceled", badgeVariant: "slate", stateApplied: false, isTerminal: true },
+    },
+
+    // In-progress / Pending combinations
+    {
+      input: { status: "PROPOSING" },
+      expected: { outcome: "accepted_by_leader", label: "Accepted by Leader", badgeVariant: "cyan", stateApplied: false, isTerminal: false },
+    },
+    {
+      input: { status: "VOTING" },
+      expected: { outcome: "voting", label: "Voting / Awaiting Consensus", badgeVariant: "cyan", stateApplied: false, isTerminal: false },
+    },
+    {
+      input: { status: "PENDING" },
+      expected: { outcome: "pending", label: "Pending", badgeVariant: "slate", stateApplied: false, isTerminal: false },
+    },
+    {
+      input: { status: null },
+      expected: { outcome: "pending", label: "Pending", badgeVariant: "slate", stateApplied: false, isTerminal: false },
+    },
+  ];
+
+  cases.forEach(({ input, expected }, idx) => {
+    it(`handles case #${idx + 1}: status=${input.status}, result=${(input as any).result}, leaderResult=${(input as any).leaderResult}`, () => {
+      const outcome = deriveTerminalOutcome(input);
+      expect(outcome).toEqual(expected);
+    });
+  });
+});

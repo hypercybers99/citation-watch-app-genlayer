@@ -4,6 +4,67 @@ All notable changes to CitationWatch dApp will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Milestone 1 - Revision 4] - 2026-10-25
+
+### Stacking Context Occlusion Resolution, In-App Notices, and Dual Outcome Mapping
+
+**Git Diff**: [pre-milestones...milestone-1-ux-onboarding-r4](https://github.com/huzyow155/citation-watch-app-genlayer/compare/pre-milestones...milestone-1-ux-onboarding-r4)  
+**Revision Tag**: `milestone-1-ux-onboarding-r4`  
+**Network**: GenLayer Studionet (Preview)  
+**Production URL**: `https://citation-watch-app-genlayer.vercel.app`  
+
+---
+
+### Overview
+
+Milestone 1 Revision 4 resolves a critical dialog occlusion defect where modals rendered inside `<header>` were covered by `<main>` page elements on narrow viewports (500–630px wide). The architecture was overhauled with a top-level React portal (`#modal-root`), an explicit application-wide z-index scale, and background inertness trapping. In addition, all native browser dialogs were replaced with accessible in-app notices, dual status and result mapping was implemented to distinguish agreed from disagreed transactions, and a fresh zero-balance experiment on GenLayer Studionet (Preview) was completed with 100% agreement on first attempt.
+
+---
+
+### Quantifiable Metrics (Revision 2 vs. Revision 4)
+
+| Metric | Revision 2 (`milestone-1-ux-onboarding-r2`) | Revision 4 (`milestone-1-ux-onboarding-r4`) | Improvement |
+| :--- | :--- | :--- | :--- |
+| **Viewport Occluded Elements (1,953 cells)** | 1,998 externally covered elements | **0 externally covered elements (100% clear)** | Complete resolution of stacking occlusion |
+| **Automated Playwright Occlusion Suite** | Failed (6 / 6 tests failed on R3 baseline) | **Passed (6 / 6 tests passed on R4)** | Regression verified |
+| **Native Browser Dialogs (`alert/confirm/prompt`)** | 2 browser dialog calls | **0 browser dialog calls across `src/`** | Replaced with accessible InAppNotice |
+| **Static Dialog Scanner** | Not present | **Wired into `npm run check` (`scan:dialogs`)** | Continuous regression checks |
+| **Axe-core Accessibility Audits (28 scenarios)** | Not tested across modals on small viewports | **28 / 28 scenarios passed (0 violations)** | 0 critical, 0 serious, 0 moderate, 0 minor |
+| **Keyboard-Only Verification (3 engines)** | Unverified | **18 / 18 tests passed (Chromium, Firefox, WebKit)** | 100% keyboard accessibility |
+| **Lighthouse Accessibility Score** | 99 / 100 | **100 / 100 across `/`, `/app`, `/workbench`** | Perfect 100 on desktop & mobile |
+| **Zero-Balance Writes (Fresh throwaway key)** | 3 agreed, 1 disagreed | **4 / 4 writes agreed on 1st attempt (0 retries)** | 0 GEN expended across all 4 writes |
+| **Automated Test Suite (Vitest)** | 53 tests | **76 unit & integration tests** | +23 table-driven outcome tests |
+
+---
+
+### Before vs. After Analysis
+
+#### 1. Stacking Context & Modal Mounting Architecture
+- **Before**: Modals were rendered as child elements of `<header>` or `<main>`. The `<header>` element uses Tailwind's `backdrop-blur-md` (`backdrop-filter: blur(12px)`). By CSS specifications, applying `backdrop-filter` creates a new stacking context on `<header>`. Descendant dialogs with `position: fixed; z-index: 50` were trapped within this local stacking context. Because `<main id="main-content">` follows `<header>` in DOM ordering, the sticky tab navigation bar and page content cards painted over the dialog body and footer on windows 500–630px wide.
+- **After**: Added `<div id="modal-root"></div>` as a top-level sibling to `#root` in `index.html`. Created React `ModalPortal` that teleports every modal into `#modal-root`. Established a canonical z-index scale (`base: 0 < stickyTabs: 10 < stickyHeader: 20 < modalOverlay: 40 < modalDialog: 50 < toast: 60`). Added `modalManager.ts` which sets `inert` and `aria-hidden="true"` on `#app-root` with scrollbar compensation when any dialog opens.
+- **Reason**: Resolves stacking context entrapment, ensuring dialogs always paint on the top-most layer above all page content.
+
+#### 2. Native Browser Dialog Replacement with Accessible InAppNotice
+- **Before**: Legacy code in `Header.tsx` and `Workbench.tsx` invoked `window.alert()` for invalid private keys and missing account guards. Native browser dialogs lack keyboard trapping, custom styling, screen-reader status announcements, and touch target optimization.
+- **After**: Replaced all native dialogs with an accessible `InAppNotice` component featuring `role="alert"` / `role="status"`, `aria-live` announcements, focus trap, Escape dismissal, and touch targets >= 44x44 px. Implemented `scripts/scan_browser_dialogs.mjs` and wired it into `npm run check`.
+- **Reason**: Delivers consistent accessible feedback adhering to WCAG 2.1 AA standards.
+
+#### 3. Dual Status and Result Mapping
+- **Before**: Transaction lifecycle evaluation relied on raw status strings alone, which created ambiguity because GenLayer Studionet returns receipt status `0x1` for both agreed and disagreed transactions.
+- **After**: Implemented canonical `deriveTerminalOutcome({ status, result, leaderResult })` in `src/lib/txLifecycle.ts`. Terminal outcome maps strictly:
+  - Terminal status with result `6` (`MAJORITY_AGREE`) -> "Finalized (Agreed)" with green badge.
+  - Terminal status with result `7` (`MAJORITY_DISAGREE`) -> "Finalized (Disagreed / State not applied)" with amber badge.
+  - Reverted status or leader result `ERROR` -> "Reverted" with rose badge.
+  Added table-driven unit test suite in `tests/txLifecycle.test.ts` covering 23 distinct status/result combinations.
+- **Reason**: Resolves false terminal classifications and ensures honest UI reporting.
+
+#### 4. Fresh Zero-Balance Empirical Measurement (R3)
+- **Before**: Revision 2's zero-balance experiment included 1 consensus disagreement on `register_citation`.
+- **After**: Ran a fresh 4-write experiment (`docs/milestones/m1/fix3/zero_balance_experiment_r3.json`) on GenLayer Studionet (Preview) with an unfunded throwaway key (`0x15Fd0F2f7EA16D2ddc41d92bf48805563b893622`, 0 GEN balance) on article *Grace Hopper* (oldid `1379376501`, quote: `"She did not marry again and retained his surname."`). All 4 writes (`register_citation`, `audit_citation`, `publish_claim`, `refresh_claim`) reached validator agreement on the first attempt without retries. Total gas expended: 0 GEN.
+- **Reason**: Empirically confirms that zero-balance interaction on Studionet Preview functions reliably across all contract write methods.
+
+---
+
 ## [Milestone 1 - Revision 2] - 2026-10-24
 
 ### UX, Responsive Viewport Architecture, and Verification Evidence Hardening

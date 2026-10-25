@@ -60,3 +60,160 @@ export function isTimeoutReceiptStatus(status: string | number | undefined | nul
   const s = String(status || "").trim().toUpperCase();
   return s === "VALIDATORS_TIMEOUT" || s === "LEADER_TIMEOUT" || s === "12" || s === "13";
 }
+
+export type TerminalOutcomeState =
+  | "agreed"
+  | "disagreed"
+  | "reverted"
+  | "timed_out"
+  | "canceled"
+  | "pending"
+  | "accepted_by_leader"
+  | "voting";
+
+export interface TerminalOutcome {
+  outcome: TerminalOutcomeState;
+  label: string;
+  badgeVariant: "green" | "amber" | "rose" | "slate" | "cyan";
+  stateApplied: boolean;
+  isTerminal: boolean;
+}
+
+/**
+ * Derives terminal UI state from BOTH transaction status AND result/leaderResult.
+ * Resolves the issue where GenLayer returns status === FINALIZED for both agreed
+ * and disagreed transactions.
+ */
+export function deriveTerminalOutcome(params: {
+  status?: string | number | null;
+  result?: string | number | null;
+  leaderResult?: string | null;
+}): TerminalOutcome {
+  const { status, result, leaderResult } = params;
+
+  const rawStatus = status !== undefined && status !== null ? String(status).trim().toUpperCase() : "";
+  const rawResult = result !== undefined && result !== null ? String(result).trim().toUpperCase() : "";
+  const rawLeader = leaderResult !== undefined && leaderResult !== null ? String(leaderResult).trim().toUpperCase() : "";
+
+  // 1. Reverted (either status is explicitly REVERTED, or leader execution produced ERROR)
+  if (rawStatus === "REVERTED" || rawLeader === "ERROR") {
+    return {
+      outcome: "reverted",
+      label: "Reverted",
+      badgeVariant: "rose",
+      stateApplied: false,
+      isTerminal: true,
+    };
+  }
+
+  // 2. Timeouts
+  if (
+    rawStatus === "VALIDATORS_TIMEOUT" ||
+    rawStatus === "LEADER_TIMEOUT" ||
+    rawStatus === "TIMED_OUT" ||
+    rawStatus === "12" ||
+    rawStatus === "13"
+  ) {
+    return {
+      outcome: "timed_out",
+      label: "Timed Out",
+      badgeVariant: "rose",
+      stateApplied: false,
+      isTerminal: true,
+    };
+  }
+
+  // 3. Canceled
+  if (rawStatus === "CANCELED" || rawStatus === "8") {
+    return {
+      outcome: "canceled",
+      label: "Canceled",
+      badgeVariant: "slate",
+      stateApplied: false,
+      isTerminal: true,
+    };
+  }
+
+  // 4. Disagreed or Agreed
+  const isDisagreedStatus =
+    rawStatus === "UNDETERMINED" ||
+    rawStatus === "MAJORITY_DISAGREE" ||
+    rawStatus === "DISAGREED" ||
+    rawStatus === "6";
+
+  const isDisagreedResult =
+    rawResult === "7" ||
+    rawResult === "MAJORITY_DISAGREE" ||
+    rawResult === "DISAGREED";
+
+  const isAcceptedStatus =
+    rawStatus === "FINALIZED" ||
+    rawStatus === "ACCEPTED" ||
+    rawStatus === "5" ||
+    rawStatus === "7";
+
+  if (isAcceptedStatus) {
+    if (isDisagreedResult) {
+      return {
+        outcome: "disagreed",
+        label: "Finalized (Disagreed / State not applied)",
+        badgeVariant: "amber",
+        stateApplied: false,
+        isTerminal: true,
+      };
+    }
+    return {
+      outcome: "agreed",
+      label: "Finalized (Agreed)",
+      badgeVariant: "green",
+      stateApplied: true,
+      isTerminal: true,
+    };
+  }
+
+  if (isDisagreedStatus || isDisagreedResult) {
+    return {
+      outcome: "disagreed",
+      label: "Finalized (Disagreed / State not applied)",
+      badgeVariant: "amber",
+      stateApplied: false,
+      isTerminal: true,
+    };
+  }
+
+  // 5. In-progress / Pending states
+  if (rawStatus === "PROPOSING" || rawStatus === "PROPOSED" || rawStatus === "1") {
+    return {
+      outcome: "accepted_by_leader",
+      label: "Accepted by Leader",
+      badgeVariant: "cyan",
+      stateApplied: false,
+      isTerminal: false,
+    };
+  }
+
+  if (
+    rawStatus === "VOTING" ||
+    rawStatus === "COMMITTING" ||
+    rawStatus === "REVEALING" ||
+    rawStatus === "2" ||
+    rawStatus === "3" ||
+    rawStatus === "4"
+  ) {
+    return {
+      outcome: "voting",
+      label: "Voting / Awaiting Consensus",
+      badgeVariant: "cyan",
+      stateApplied: false,
+      isTerminal: false,
+    };
+  }
+
+  return {
+    outcome: "pending",
+    label: "Pending",
+    badgeVariant: "slate",
+    stateApplied: false,
+    isTerminal: false,
+  };
+}
