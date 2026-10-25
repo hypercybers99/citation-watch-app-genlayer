@@ -1,4 +1,7 @@
 {
+  "superseded": true,
+  "supersededBy": "docs/milestones/m1/fix4/raw_rpc_dump.json",
+  "supersededReason": "Superseded by authoritative reconciled evidence in Milestone 1 Revision 5.",
   "verifiedAt": "2026-10-24T16:09:17.274Z",
   "productionUrl": "https://citation-watch-app-genlayer.vercel.app",
   "network": "GenLayer Studionet (Preview)",

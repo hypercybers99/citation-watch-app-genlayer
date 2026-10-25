@@ -7,7 +7,8 @@ export default defineConfig({
   webServer: {
     command: "npm run preview -- --port 4173",
     url: "http://localhost:4173",
-    reuseExistingServer: true,
+    reuseExistingServer: false,
+    timeout: 30000,
   },
   use: {
     baseURL: process.env.APP_URL || "http://localhost:4173",
@@ -16,6 +17,14 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
   ],
 });

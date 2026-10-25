@@ -203,7 +203,14 @@ export const FundingModal: React.FC<FundingModalProps> = ({ isOpen, onClose }) =
                     <strong className="text-slate-100">Execution Mechanism:</strong> Transactions are processed by a leader validator and verified by peer validators.
                   </li>
                   <li>
-                    <strong className="text-slate-100">Zero-Balance Support:</strong> Write transactions succeed with 0 GEN balance. Ephemeral preview throwaway keys can sign and submit transactions immediately without faucet funding. On 2026-10-25, with an unfunded key (balance 0 GEN), 4 of 4 writes reached validator agreement on the first attempt without retries (0 GEN consumed). In earlier tests on 2026-10-24, 3 of 4 writes reached agreement on the first attempt (1 retry needed). In all runs, measured gas consumed was 0 GEN. Preview disclaimer: Studionet is an experimental preview environment and parameters may change in future network releases.
+                    <strong className="text-slate-100">Zero-Balance Support:</strong> Write transactions execute with 0 GEN balance on GenLayer Studionet (Preview). Ephemeral preview throwaway accounts can sign and submit transactions immediately without faucet funding. This behavior is backed by two dated empirical measurements:
+                    <ul className="mt-1.5 ml-3 space-y-1 list-disc list-inside text-slate-300">
+                      <li><strong>Experiment 1 (2026-10-24, key <code>0xE1876592e963bdA36324F1A2362B94280bFf6C21</code>):</strong> 3 of 4 write methods reached validator agreement on the first attempt; <code>register_citation</code> disagreed with 1/5 validator votes. 0 GEN consumed.</li>
+                      <li><strong>Experiment 2 (2026-10-25, fresh key <code>0x15Fd0F2f7EA16D2ddc41d92bf48805563b893622</code>, balance 0 GEN):</strong> 4 of 4 write methods (<code>register_citation</code>, <code>audit_citation</code>, <code>publish_claim</code>, <code>refresh_claim</code>) reached validator agreement on first attempt with 3/5, 5/5, 3/5, and 3/5 votes without retries. 0 GEN consumed.</li>
+                    </ul>
+                    <p className="mt-1.5 text-slate-400">
+                      Balances were read before and after each transaction using <code>eth_getBalance</code> JSON-RPC calls. Studionet Preview behavior may change in future network releases.
+                    </p>
                   </li>
                 </ul>
               </div>

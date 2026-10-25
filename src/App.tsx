@@ -18,7 +18,7 @@ export const App: React.FC = () => {
             Skip to main content
           </a>
           <div
-            id="app-root"
+            id="app-shell"
             style={{ isolation: "isolate" }}
             className="min-h-screen bg-slate-950 flex flex-col font-sans text-slate-100 overflow-x-hidden"
           >

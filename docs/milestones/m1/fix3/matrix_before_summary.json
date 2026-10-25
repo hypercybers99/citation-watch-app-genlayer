@@ -1,0 +1,421 @@
+{
+  "description": "Milestone 1 Revision 4 Responsive Modal Occlusion Matrix Summary (Before Stacking Fix Baseline)",
+  "generatedAt": "2026-10-25T05:38:16.898Z",
+  "totalCells": 1953,
+  "summary": {
+    "totalTests": 1953,
+    "occludedByExternalElement": 1395,
+    "needsInnerScroll": 0,
+    "cleanPass": 558,
+    "externalOcclusionRate": "71.43%",
+    "clearRate": "28.57%"
+  },
+  "byEngine": {
+    "chromium": {
+      "total": 651,
+      "occludedByExternalElement": 465,
+      "needsInnerScroll": 0,
+      "cleanPass": 186
+    },
+    "firefox": {
+      "total": 651,
+      "occludedByExternalElement": 465,
+      "needsInnerScroll": 0,
+      "cleanPass": 186
+    },
+    "webkit": {
+      "total": 651,
+      "occludedByExternalElement": 465,
+      "needsInnerScroll": 0,
+      "cleanPass": 186
+    }
+  },
+  "byScenario": {
+    "walkthrough_auto_workbench": {
+      "total": 279,
+      "occludedByExternalElement": 279,
+      "needsInnerScroll": 0,
+      "cleanPass": 0
+    },
+    "funding_header_workbench": {
+      "total": 279,
+      "occludedByExternalElement": 279,
+      "needsInnerScroll": 0,
+      "cleanPass": 0
+    },
+    "wallet_header_workbench": {
+      "total": 279,
+      "occludedByExternalElement": 0,
+      "needsInnerScroll": 0,
+      "cleanPass": 279
+    },
+    "funding_inline_workbench": {
+      "total": 279,
+      "occludedByExternalElement": 0,
+      "needsInnerScroll": 0,
+      "cleanPass": 279
+    },
+    "walkthrough_auto_landing": {
+      "total": 279,
+      "occludedByExternalElement": 279,
+      "needsInnerScroll": 0,
+      "cleanPass": 0
+    },
+    "funding_header_landing": {
+      "total": 279,
+      "occludedByExternalElement": 279,
+      "needsInnerScroll": 0,
+      "cleanPass": 0
+    },
+    "walkthrough_header_app": {
+      "total": 279,
+      "occludedByExternalElement": 279,
+      "needsInnerScroll": 0,
+      "cleanPass": 0
+    }
+  },
+  "byViewport": {
+    "w320_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w320_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w320_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w320_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w320_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w320_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w360_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w360_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w360_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w360_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w360_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w360_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w390_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w390_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w390_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w390_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w390_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w390_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w414_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w414_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w414_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w414_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w414_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w414_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w500_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w500_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w500_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w500_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w500_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w500_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w630_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w630_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w630_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w630_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w630_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w630_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w768_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w768_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w768_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w768_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w768_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w768_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1024_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1024_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w1024_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1024_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w1024_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1024_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1440_h300": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1440_h400": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w1440_h568": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1440_h667": {
+      "total": 63,
+      "occludedByExternalElement": 45,
+      "needsInnerScroll": 0,
+      "cleanPass": 18
+    },
+    "w1440_h740": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "w1440_h900": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "landscape_667x375": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "zoom_200_1280x800": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    },
+    "zoom_400_1280x800": {
+      "total": 21,
+      "occludedByExternalElement": 15,
+      "needsInnerScroll": 0,
+      "cleanPass": 6
+    }
+  }
+}

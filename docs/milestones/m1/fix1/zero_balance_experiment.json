@@ -1,4 +1,7 @@
 {
+  "superseded": true,
+  "supersededBy": "docs/milestones/m1/fix3/zero_balance_experiment_r3.json",
+  "supersededReason": "Superseded by authoritative reconciled evidence in Milestone 1 Revision 5.",
   "experiment": "Zero-Balance 4-Write Verification on GenLayer Studionet (Preview)",
   "testedAt": "2026-10-24T14:29:29.513Z",
   "account": "0xE1876592e963bdA36324F1A2362B94280bFf6C21",

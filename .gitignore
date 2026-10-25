@@ -4,5 +4,10 @@ dist
 .env.local
 .vercel
 *.log
-
-.vercel
+test-results
+playwright-report
+blob-report
+traces
+*.key
+*.pem
+*.zip
