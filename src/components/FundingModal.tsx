@@ -193,7 +193,7 @@ export const FundingModal: React.FC<FundingModalProps> = ({ isOpen, onClose }) =
                   <strong className="text-slate-100">Execution Mechanism:</strong> Transactions are processed by a leader validator and verified by peer validators.
                 </li>
                 <li>
-                  <strong className="text-slate-100">Zero-Balance Support:</strong> Write transactions succeed with 0 GEN balance. Ephemeral preview throwaway keys can sign and submit transactions immediately without faucet funding.
+                  <strong className="text-slate-100">Zero-Balance Support:</strong> Write transactions succeed with 0 GEN balance. Ephemeral preview throwaway keys can sign and submit transactions immediately without faucet funding. Empirically measured on 2026-10-24 across 4 write methods (register_citation, audit_citation, publish_claim, refresh_claim) on GenLayer Studionet (Preview); measured gas consumed was 0 GEN. Preview disclaimer: Studionet is an experimental preview environment and parameters may change in future network releases.
                 </li>
               </ul>
             </div>

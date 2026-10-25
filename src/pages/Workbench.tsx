@@ -410,7 +410,7 @@ export const Workbench: React.FC = () => {
                   Explore On-Chain Citations
                 </h1>
                 <p className="text-sm text-slate-300 mt-1">
-                  Live state hydrated directly from SourceDriftLedger and ClaimsBoard on GenLayer Studionet (Preview).
+                  State hydrated directly from SourceDriftLedger and ClaimsBoard on GenLayer Studionet (Preview).
                 </p>
               </div>
 
@@ -540,7 +540,7 @@ export const Workbench: React.FC = () => {
                       Verified sample citations (IDs from our evidence run)
                     </h3>
                     <p className="text-xs text-slate-300">
-                      Each card is hydrated live from SourceDriftLedger on Studionet.
+                      Each card is hydrated directly from SourceDriftLedger on GenLayer Studionet (Preview).
                     </p>
                   </div>
                 </div>
@@ -988,7 +988,7 @@ export const Workbench: React.FC = () => {
                 ClaimsBoard Cross-Contract Integration
               </h1>
               <p className="text-sm text-slate-300 mt-1 leading-relaxed">
-                Proves cross-contract reuse: external dApps publish assertions bound to citations and synchronize live drift badges.
+                Proves cross-contract reuse: external dApps publish assertions bound to citations and synchronize dynamic drift badges.
               </p>
             </div>
 
