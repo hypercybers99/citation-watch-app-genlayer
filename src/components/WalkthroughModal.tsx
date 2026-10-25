@@ -243,7 +243,7 @@ export const WalkthroughModal: React.FC<WalkthroughModalProps> = ({ isOpen, onCl
               <button
                 type="button"
                 onClick={handleDismiss}
-                aria-label="Skip guided tour"
+                aria-label="Close guided tour"
                 className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-cyan-400"
               >
                 <X className="h-5 w-5" />

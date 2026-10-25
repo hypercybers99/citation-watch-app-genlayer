@@ -51,7 +51,7 @@ function formatTxFailureMessage(action: string, result: { status: string; decode
     return `Consensus Disagreement: The validators could not reach agreement on this ${action} transaction. The target content or validator environment produced differing execution results.`;
   }
   if (result.status === "TIMED_OUT") {
-    return `Consensus Timeout: Transaction was submitted to GenLayer Studionet (Preview), but validator consensus did not finalize within the monitoring window. Please check the explorer or try again.`;
+    return `Consensus Timeout: Transaction was submitted to GenLayer Studionet (Preview), but validator consensus did not conclude within the monitoring window. Please check the explorer or try again.`;
   }
   return `${action} failed with status ${result.status}`;
 }
@@ -333,6 +333,8 @@ export async function monitorTransaction(
           status: rawStatus,
           result: tx.result ?? consensusData?.result,
           leaderResult,
+          agreeCount,
+          totalVotes,
         });
 
         if (terminal.isTerminal) {

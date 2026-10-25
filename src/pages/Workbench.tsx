@@ -61,6 +61,16 @@ const VERIFIED_SAMPLE_CITATION_IDS = [
   "64032d9d1502", // Computing Hardware
 ];
 
+const WORKBENCH_TABS = [
+  { id: "explore", label: "Explore Citations" },
+  { id: "detail", label: "Citation Detail" },
+  { id: "register", label: "Register Citation" },
+  { id: "audit", label: "Run Audit" },
+  { id: "claims", label: "Claims Board" },
+  { id: "admin", label: "Admin & Ledger" },
+  { id: "evidence", label: "Honest Evidence" },
+] as const;
+
 export const Workbench: React.FC = () => {
   const { account, disclaimer } = useWallet();
   const [activeTab, setActiveTab] = useState<
@@ -364,6 +374,30 @@ export const Workbench: React.FC = () => {
     }
   };
 
+  const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let targetIndex = -1;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      targetIndex = (index + 1) % WORKBENCH_TABS.length;
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      targetIndex = (index - 1 + WORKBENCH_TABS.length) % WORKBENCH_TABS.length;
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      targetIndex = 0;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      targetIndex = WORKBENCH_TABS.length - 1;
+    }
+
+    if (targetIndex !== -1) {
+      const nextTab = WORKBENCH_TABS[targetIndex];
+      setActiveTab(nextTab.id);
+      const nextEl = document.getElementById("tab-" + nextTab.id);
+      nextEl?.focus();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans text-base">
       {/* Subnav Tabs */}
@@ -373,22 +407,16 @@ export const Workbench: React.FC = () => {
           role="tablist"
           className="mx-auto max-w-7xl flex space-x-1 overflow-x-auto py-2.5"
         >
-          {(
-            [
-              { id: "explore", label: "Explore Citations" },
-              { id: "detail", label: "Citation Detail" },
-              { id: "register", label: "Register Citation" },
-              { id: "audit", label: "Run Audit" },
-              { id: "claims", label: "Claims Board" },
-              { id: "admin", label: "Admin & Ledger" },
-              { id: "evidence", label: "Honest Evidence" },
-            ] as const
-          ).map((tab) => (
+          {WORKBENCH_TABS.map((tab, idx) => (
             <button
               key={tab.id}
+              id={"tab-" + tab.id}
               role="tab"
               aria-selected={activeTab === tab.id}
+              aria-controls={"tabpanel-" + tab.id}
+              tabIndex={activeTab === tab.id ? 0 : -1}
               onClick={() => setActiveTab(tab.id)}
+              onKeyDown={(e) => handleTabKeyDown(e, idx)}
               className={`min-h-[44px] rounded-xl px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                 activeTab === tab.id
                   ? "bg-cyan-500 text-slate-950 font-bold"
@@ -402,7 +430,7 @@ export const Workbench: React.FC = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 mx-auto max-w-7xl w-full p-4 sm:p-6 lg:p-8">
+      <div role="tabpanel" id={"tabpanel-" + activeTab} aria-labelledby={"tab-" + activeTab} tabIndex={0} className="flex-1 mx-auto max-w-7xl w-full p-4 sm:p-6 lg:p-8 focus:outline-none">
         {/* TAB 1: EXPLORE */}
         {activeTab === "explore" && (
           <section aria-labelledby="explore-citations-title" className="space-y-8">
